@@ -60,6 +60,8 @@ Users should be able to sort the list of trips by:
 
 The user should be given some sort of visual feedback that the data has been sorted, even if the order didn't change.
 
+## Optional Features
+
 ### Filtering
 
 Add a form to the top of your trip list. The form should have a dropdown to select `Name`, `Category`, `Continent`, `Cost` or `Weeks`, as well as a text box.
