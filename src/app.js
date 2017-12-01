@@ -8,6 +8,7 @@ import './css/style.css';
 
 // Other components
 import Trip from './app/models/trip';
+import Reservation from './app/models/reservation';
 import TripList from './app/collections/trip_list';
 //
 const TRIP_FIELDS = ['name', 'continent', 'category', 'weeks', 'cost'];
@@ -16,6 +17,7 @@ console.log('it loaded!');
 //
 // // Starts undefined - we'll set this in $(document).ready
 // // once we know the template is available
+let tripsTemplate;
 let tripTemplate;
 
 const renderTrips = function renderTrips(tripList) {
@@ -24,12 +26,17 @@ const renderTrips = function renderTrips(tripList) {
 
 
   tripList.forEach((trip) => {
-    const generatedHTML = $(tripTemplate(trip.attributes)); // check w/Dan on attributes
+    const generatedHTML = $(tripsTemplate(trip.attributes)); // check w/Dan on attributes
     generatedHTML.on('click', (event) => {
-      renderTrip(trip)
-      $('#trips').hide();
-      $('#trip').show();
+      trip.fetch({
+        success: function(model, response) {
+          renderTrip(model);
+          $('#trips').hide();
+          $('#trip').show();
+        }
+      });
     });
+
     tripsTableElement.append(generatedHTML);
   });
 };
@@ -43,7 +50,8 @@ const renderTrip = function renderTrip(trip){
 };
 
 $(document).ready(() => {
-  tripTemplate = _.template($('#trips-template').html());
+  tripsTemplate = _.template($('#trips-template').html());
+  tripTemplate = _.template($('#trip-template').html());
 
   const tripList = new TripList();
   tripList.on('update',renderTrips);
@@ -52,6 +60,7 @@ $(document).ready(() => {
     tripList.fetch({
       success: function () {
         $('#trips').show();
+        $('#trip').hide();
       }
     });
   });
@@ -71,5 +80,23 @@ $(document).ready(() => {
         tripList.add(model);
       }
     });
+  });
+
+  $('#trip').on('submit', '#reservation-form', function(event) {
+    event.preventDefault();
+    let reserveData = {};
+
+    ['name', 'age', 'email'].forEach((field) => {
+      reserveData[field] = $(`#reservation-form input[name="${ field }"]`).val();
+    });
+
+    let reservation = new Reservation(reserveData);
+    reservation.set('trip_id', $(this).data('tripId'));
+    
+    reservation.save({}, {
+      success: function (model, response) {
+        console.log('reservation successful');
+      }
+    })
   });
 });
