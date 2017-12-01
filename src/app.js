@@ -56,9 +56,23 @@ $(document).ready(() => {
   const tripList = new TripList();
   tripList.on('update',renderTrips);
 
+  tripList.on('sort', renderTrips);
+
+  TRIP_FIELDS.forEach((field) => {
+    const headerElement = $(`th.sort.${ field }`);
+    headerElement.on('click', (event) => {
+      console.log(`sorting table by ${ field }`);
+      tripList.comparator = field; //property; meta data
+      tripList.sort();
+    });
+  });
+
+
+
+
   $('#search-trips').on('click', function() {
     tripList.fetch({
-      success: function () {
+      success: function (collection, response) {
         $('#trips').show();
         $('#trip').hide();
       }
@@ -67,6 +81,7 @@ $(document).ready(() => {
 
   $('#add-trip-form').on('submit', function(event) {
     event.preventDefault();  //prevents page from refreshing
+
     let tripData = {};
 
     TRIP_FIELDS.forEach((field) => {
@@ -92,7 +107,7 @@ $(document).ready(() => {
 
     let reservation = new Reservation(reserveData);
     reservation.set('trip_id', $(this).data('tripId'));
-    
+
     reservation.save({}, {
       success: function (model, response) {
         console.log('reservation successful');
