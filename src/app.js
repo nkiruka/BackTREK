@@ -6,8 +6,15 @@ import _ from 'underscore';
 import './css/foundation.css';
 import './css/style.css';
 
+// Other components
+import Trip from './app/models/trip';
+import Reservation from './app/models/reservation';
+import TripList from './app/collections/trip_list';
+
 console.log('it loaded!');
 
-$(document).ready( () => {
-  $('main').html('<h1>Hello World!</h1>');
+let tripsTemplate;
+
+$(document).ready(() => {
+  tripsTemplate = _.template($('#trips-template').html());
 });
