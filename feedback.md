@@ -16,7 +16,6 @@ Display trip details |
 Register for a trip |
 Add a trip |
 Sort trips |
-Filter trips |
 **General** |
 Snappy visual feedback for user actions |
 API error handling |
