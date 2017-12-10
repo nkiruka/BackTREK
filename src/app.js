@@ -66,7 +66,9 @@ $(document).ready(() => {
     });
   });
 
+
 // retrieve all trips
+
   $('#search-trips').on('click', function() {
     tripList.fetch({
       success: function (collection, response) {
@@ -75,6 +77,7 @@ $(document).ready(() => {
       }
     });
   });
+
 
 // add a trip
   $('#add-trip-form').on('submit', function(event) {
