@@ -50,8 +50,7 @@ const renderTrip = function renderTrip(trip) {
   tripTableElement.html(generatedHTML);
 };
 
-
-$(document).ready( () => {
+$(document).ready(() => {
   tripsTemplate = _.template($('#trips-template').html());
   tripTemplate = _.template($('#trip-template').html());
 
@@ -59,8 +58,8 @@ $(document).ready( () => {
   tripList.on('update', renderTrips);
   tripList.on('sort', renderTrips);
 
-  // Add a click handler for each of the table headers
-  // to sort the table by that column
+// Add a click handler for each of the table headers
+// to sort the table by that column
 TRIP_FIELDS.forEach((field) => {
     const headerElement = $(`th.sort.${ field }`);
     headerElement.on('click', (event) => {
@@ -76,6 +75,25 @@ TRIP_FIELDS.forEach((field) => {
       success: function(collection, response) {
         $('#trips').show();
         $('#trip').hide();
+      }
+    });
+  });
+
+// Add a trip
+  $('#add-trip-form').on('submit', function(event) {
+    event.preventDefault();  //prevents page from refreshing
+
+    let tripData = {};
+
+    TRIP_FIELDS.forEach((field) => {
+      tripData[field] = $(`#add-trip-form input[name="${ field }"]`).val();  //loop through
+    });
+
+    let trip = new Trip(tripData); // backbone trip model
+
+    trip.save({}, {
+      success: function (model, response) {
+        tripList.add(model);
       }
     });
   });
