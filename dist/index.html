@@ -14,6 +14,30 @@
       <button id="search-trips" class="button">Search Trips</button>
     </section>
 
+    <aside class="columns large-4 small-12">
+      <form id="add-trip-form">
+        <label for="name">Name:</label>
+        <input type="text" name="name"></input>
+
+        <label for="continent">Continent:</label>
+        <input type="text" name="continent"></input>
+
+        <label for="about">About:</label>
+        <input type="text" name="about"></input>
+
+        <label for="category">Category:</label>
+        <input type="text" name="category"></input>
+
+        <label for="weeks">Weeks:</label>
+        <input type="number" name="weeks" min="0"></input>
+
+        <label for="cost">Cost:</label>
+        <input type="number" name="cost" min="0" step=".01"></input>
+
+        <input type="submit" value="Add Trip"></input>
+      </form>
+    </aside>
+
     <section class="columns large-8 small-12" id="trips">
       <h2>Trips</h2>
 
@@ -37,7 +61,7 @@
 
   </main>
   <footer>
-      &copy; 2017, NInc
+      
   </footer>
 
   <script type="text/template" id="trips-template">
