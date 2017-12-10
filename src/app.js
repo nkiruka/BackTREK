@@ -8,6 +8,7 @@ import './css/style.css';
 
 // Other components
 import Trip from './app/models/trip';
+import Reservation from './app/models/reservation';
 import TripList from './app/collections/trip_list';
 
 console.log('it loaded!');
@@ -77,5 +78,24 @@ TRIP_FIELDS.forEach((field) => {
         $('#trip').hide();
       }
     });
+  });
+
+// Make a reservation
+  $('#trip').on('submit', '#reservation-form', function(event) {
+    event.preventDefault();
+    let reserveData = {};
+
+    ['name', 'age', 'email'].forEach((field) => {
+      reserveData[field] = $(`#reservation-form input[name="${ field }"]`).val();
+    });
+
+    let reservation = new Reservation(reserveData);
+    reservation.set('trip_id', $(this).data('tripId'));
+
+    reservation.save({}, {
+      success: function (model, response) {
+        console.log('reservation successful');
+      }
+    })
   });
 });
