@@ -14,7 +14,9 @@ console.log('it loaded!');
 
 const TRIP_FIELDS = ['name', 'continent', 'category', 'weeks', 'cost'];
 let tripsTemplate;
+let tripTemplate;
 
+// Trip list
 const renderTrips = function renderTrips(tripList) {
   const tripsTableElement = $('#trip-list');
   tripsTableElement.html('');
@@ -22,23 +24,55 @@ const renderTrips = function renderTrips(tripList) {
   tripList.forEach((trip) => {
     const generatedHTML = $(tripsTemplate(trip.attributes));
     generatedHTML.on('click', (event) => {
-      $('#trips').hide();
+      trip.fetch({
+        success: function(model, response) {
+          $('#trips').hide();
+          $('#trip').show();
+        }
+      });
     });
     tripsTableElement.append(generatedHTML);
   });
+
+// Visual feedback for sorting
+  $('th.sort').removeClass('current-sort-field');
+  $(`th.sort.${ tripList.comparator }`).addClass('current-sort-field');
+};
+
+// Trip
+const renderTrip = function renderTrip(trip) {
+  const tripTableElement = $('#trip');
+  tripTableElement.html('');
+
+  const generatedHTML = $(tripTemplate(trip.attributes));
+  tripTableElement.html(generatedHTML);
 };
 
 
 $(document).ready( () => {
   tripsTemplate = _.template($('#trips-template').html());
+  tripTemplate = _.template($('#trip-template').html());
 
   const tripList = new TripList();
   tripList.on('update', renderTrips);
+  tripList.on('sort', renderTrips);
 
+// Sort table headings
+TRIP_FIELDS.forEach((field) => {
+    const headerElement = $(`th.sort.${ field }`);
+    headerElement.on('click', (event) => {
+      console.log(`sorting table by ${ field }`);
+      tripList.comparator = field; //property; meta data
+      tripList.sort();
+    });
+  });
+
+// Retrieve all trips
   $('#search-trips').on('click', function() {
     tripList.fetch({
-      success: function() {
+      success: function(collection, response) {
         $('#trips').show();
+        $('#trip').hide();
       }
     });
   });
