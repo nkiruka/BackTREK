@@ -4,14 +4,56 @@
   <meta charset="utf-8">
   <title>My JavaScript App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" type="text/css" href="css/style.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/foundation/6.2.4/foundation.min.css">
 </head>
 <body>
   <header>
 
   </header>
   <main>
+    <section>
+      <form id="add-trip-form">
+        <label for="name">Name:</label>
+        <input type="text" name="name"></input>
+
+        <label for="continent">Continent:</label>
+        <input type="text" name="continent"></input>
+
+        <label for="about">About:</label>
+        <input type="text" name="about"></input>
+
+        <label for="category">Category:</label>
+        <input type="text" name="category"></input>
+
+        <label for="weeks">Weeks:</label>
+        <input type="number" name="weeks" min="0"></input>
+
+        <label for="cost">Cost:</label>
+        <input type="number" name="cost" min="0" step=".01"></input>
+
+        <input type="submit" value="Add Trip"></input>
+      </form>
+    </section>
+
+    <section>
+      <button id="search-trips">Search Trips</button>
+    </section>
+
+    <section id"trip" class="row"></section>
+
+    <section id="trips" class="row">
+      <table>
+        <thead >
+          <!-- <th class="sort id">Id</th> -->
+          <th class="sort name">Name</th>
+          <th class="sort continent">Continent</th>
+          <th class="sort category">Category</th>
+          <th class="sort weeks">Weeks</th>
+          <th class="sort cost">Cost</th>
+        </thead>
+        <tbody id="trip-list">
+        </tbody>
+      </table>
+    </section>
 
     <section>
       <form id="add-trip-form">
@@ -66,9 +108,9 @@
 
   <script type="text/template" id="trips-template">
     <tr>
-      <td>
+      <!-- <td>
         <%- id %>
-      </td>
+      </td> -->
       <td>
         <%- name %>
       </td>

@@ -5,6 +5,7 @@ const Trip = Backbone.Model.extend({
   defaults: {
     name: 'unknown'
   }
+
 });
 
 export default Trip;

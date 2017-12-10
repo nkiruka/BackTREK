@@ -10,11 +10,10 @@ import './css/style.css';
 import Trip from './app/models/trip';
 import Reservation from './app/models/reservation';
 import TripList from './app/collections/trip_list';
-//
+
 const TRIP_FIELDS = ['name', 'continent', 'category', 'weeks', 'cost'];
 console.log('it loaded!');
 
-//
 // // Starts undefined - we'll set this in $(document).ready
 // // once we know the template is available
 let tripsTemplate;
@@ -68,7 +67,7 @@ $(document).ready(() => {
   });
 
 
-
+// retrieve all trips
 
   $('#search-trips').on('click', function() {
     tripList.fetch({
@@ -79,6 +78,8 @@ $(document).ready(() => {
     });
   });
 
+
+// add a trip
   $('#add-trip-form').on('submit', function(event) {
     event.preventDefault();  //prevents page from refreshing
 
