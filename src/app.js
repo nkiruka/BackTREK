@@ -26,6 +26,7 @@ const renderTrips = function renderTrips(tripList) {
     generatedHTML.on('click', (event) => {
       trip.fetch({
         success: function(model, response) {
+          renderTrip(model);
           $('#trips').hide();
           $('#trip').show();
         }
@@ -57,7 +58,8 @@ $(document).ready( () => {
   tripList.on('update', renderTrips);
   tripList.on('sort', renderTrips);
 
-// Sort table headings
+  // Add a click handler for each of the table headers
+  // to sort the table by that column
 TRIP_FIELDS.forEach((field) => {
     const headerElement = $(`th.sort.${ field }`);
     headerElement.on('click', (event) => {
