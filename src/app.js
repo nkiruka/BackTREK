@@ -93,6 +93,7 @@ TRIP_FIELDS.forEach((field) => {
 
     trip.save({}, {
       success: function (model, response) {
+        console.log('Successfully save book')
         tripList.add(model);
       }
     });
@@ -116,4 +117,5 @@ TRIP_FIELDS.forEach((field) => {
       }
     })
   });
+
 });
