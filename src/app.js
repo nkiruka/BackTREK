@@ -6,12 +6,40 @@ import _ from 'underscore';
 import './css/foundation.css';
 import './css/style.css';
 
-// Components
-import Trip from './models/trip';
-import TripList from './collections/trip_list';
+// Other components
+import Trip from './app/models/trip';
+import TripList from './app/collections/trip_list';
 
 console.log('it loaded!');
 
+const TRIP_FIELDS = ['name', 'continent', 'category', 'weeks', 'cost'];
+let tripsTemplate;
+
+const renderTrips = function renderTrips(tripList) {
+  const tripsTableElement = $('#trip-list');
+  tripsTableElement.html('');
+
+  tripList.forEach((trip) => {
+    const generatedHTML = $(tripsTemplate(trip.attributes));
+    generatedHTML.on('click', (event) => {
+      $('#trips').hide();
+    });
+    tripsTableElement.append(generatedHTML);
+  });
+};
+
+
 $(document).ready( () => {
-  $('main').html('<h1>Hello World!</h1>');
+  tripsTemplate = _.template($('#trips-template').html());
+
+  const tripList = new TripList();
+  tripList.on('update', renderTrips);
+
+  $('#search-trips').on('click', function() {
+    tripList.fetch({
+      success: function() {
+        $('#trips').show();
+      }
+    });
+  });
 });
